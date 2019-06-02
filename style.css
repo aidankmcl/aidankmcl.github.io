@@ -1,0 +1,56 @@
+html, body {
+    margin: 0;
+}
+
+body {
+    position: relative;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+h1, h2, h3 {
+    font-family: 'Quicksand';
+    color: rgba(0, 0, 0, 0.6);
+}
+
+p {
+    font-family: 'Quicksand';
+}
+
+#info-holder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+}
+.info h1 {
+    margin: 0;
+    text-align: center;
+}
+
+p {
+    font-family: 'Roboto';
+}
+
+.field {
+    text-align: center;
+}
