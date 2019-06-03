@@ -53,4 +53,16 @@ p {
 
 .field {
     text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.field a {
+    display: inline-block;
+}
+
+.field img {
+    max-width: 50px;
+    opacity: 0.6;
 }
