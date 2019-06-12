@@ -65,8 +65,10 @@ function draw() {
   generate();
   for ( let i = 0; i < columns;i++) {
     for ( let j = 0; j < rows;j++) {
+      board[i][j].color.setAlpha(Math.floor(board[i][j].activation * 255))
       if (board[i][j].activation == 0) fill(255);
-      else fill(lerpColor(fromColor, toColor, board[i][j].activation));
+      else fill(board[i][j].color);
+
       noStroke();
       rect(i * w, j * w, w, w);
     }
@@ -88,7 +90,7 @@ function mouseMoved() {
       boundedX = Math.max(1, Math.min(x+i, columns - 2));
       boundedY = Math.max(1, Math.min(y+j, rows - 2));
 
-      board[boundedX][boundedY] = { val: 1, activation: 1 };
+      board[boundedX][boundedY] = { val: 1, activation: 1, color: lerpColor(fromColor, toColor, 1) };
     }
   }
 }
@@ -102,8 +104,9 @@ function mousePressed() {
 function init() {
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
-      board[i][j] = { val: floor(random(2)), activation: 0 };
-      next[i][j] = { val: 0, activation: 0 };
+      setColor(i / columns, j / rows);
+      board[i][j] = { val: floor(random(2)), activation: 0, color: lerpColor(fromColor, toColor, 1) };
+      next[i][j] = { val: 0, activation: 0, color: lerpColor(fromColor, toColor, 1) };
     }
   }
 }
@@ -128,10 +131,10 @@ function generate() {
       // we added it in the above loop
       neighbors -= board[x][y].val;
       // Rules of Life
-      if ((board[x][y].val == 1) && (neighbors ==  2)) next[x][y] = { val: 1, activation: 1 }
-      else if ((board[x][y].val == 1) && (neighbors <  2)) next[x][y] = { val: 0, activation: board[x][y].activation }           // Loneliness
-      else if ((board[x][y].val == 1) && (neighbors >  3)) next[x][y] = { val: 0, activation: board[x][y].activation }           // Overpopulation
-      else if ((board[x][y].val == 0) && (neighbors == 3)) next[x][y] = { val: 1, activation: 1 }           // Reproduction
+      if ((board[x][y].val == 1) && (neighbors ==  2)) next[x][y] = { val: 1, activation: 1, color: board[x][y].color }
+      else if ((board[x][y].val == 1) && (neighbors <  2)) next[x][y] = { val: 0, activation: board[x][y].activation, color: board[x][y].color }           // Loneliness
+      else if ((board[x][y].val == 1) && (neighbors >  3)) next[x][y] = { val: 0, activation: board[x][y].activation, color: board[x][y].color }           // Overpopulation
+      else if ((board[x][y].val == 0) && (neighbors == 3)) next[x][y] = { val: 1, activation: 1, color: board[x][y].color }           // Reproduction
       else                                                 next[x][y] = board[x][y]; // Stasis
     }
   }
