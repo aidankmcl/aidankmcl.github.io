@@ -41,7 +41,7 @@ function setup() {
 
   setColor(0, 0);
 
-  frameRate(10);
+  frameRate(15);
   createCanvas(window.innerWidth, window.innerHeight);
   w = 15;
   // Calculate columns and rows
@@ -77,6 +77,20 @@ function mouseMoved() {
   xRatio = mouseX / windowWidth;
   yRatio = mouseY / windowHeight;
   setColor(xRatio, yRatio);
+
+  let x = Math.floor(mouseX / w);
+  let y = Math.floor(mouseY / w);
+  let boundedX = 0;
+  let boundedY = 0;
+
+  for (var i=-1; i<2; i++) {
+    for (var j=-1; j<2; j++) {
+      boundedX = Math.max(1, Math.min(x+i, columns - 2));
+      boundedY = Math.max(1, Math.min(y+j, rows - 2));
+
+      board[boundedX][boundedY] = { val: 1, activation: 1 };
+    }
+  }
 }
 
 // reset board when mouse is pressed
