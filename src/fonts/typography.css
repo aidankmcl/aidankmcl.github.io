@@ -1,0 +1,98 @@
+/* latin */
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 200;
+  src: url('./Josefin_Sans/static/JosefinSans-ExtraLight.ttf') format('truetype');
+}
+
+/* latin */
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('./Josefin_Sans/static/JosefinSans-Light.ttf') format('truetype');
+}
+
+/* latin */
+@font-face {
+  font-family: 'Josefin Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./Josefin_Sans/static/JosefinSans-Regular.ttf') format('truetype');
+}
+
+/* latin */
+@font-face {
+  font-family: 'Yeseva One';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./Yeseva_One/YesevaOne-Regular.ttf') format('truetype');
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Yeseva One', serif;
+}
+
+.article h1, .article h2, .article h3, .article h4, .article h5, .article h6 {
+  margin: 0.75em 0 0.5em;
+}
+
+.article a {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.4rem;
+  color: #800DF2;
+}
+
+.article *:last-child {
+  margin-bottom: 0;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+.header-font {
+  font-family: 'Yeseva One', serif;
+}
+
+p, ul, ol, li {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  font-size: 1.4rem;
+  color: #000;
+}
+
+.body-font {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+@media (max-width: 400px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  p, ul, ol, li {
+    font-size: 1.25rem;
+  }
+
+  ul {
+    padding-left: 1rem;
+  }
+}
