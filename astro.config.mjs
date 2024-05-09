@@ -1,3 +1,6 @@
+import { resolve } from "path";
+const __dirname = import.meta.dirname;
+
 import { defineConfig } from 'astro/config';
 
 // Unocss
@@ -14,6 +17,6 @@ export default defineConfig({
   site: "https://aidan.works",
   integrations: [UnoCSS({
     injectReset: true,
-    configFile: "./src/styles/unocss-config.ts"
+    configFile: resolve(__dirname, "./src/styles/unocss-config.ts")
   }), solid(), mdx(), icon()]
 });

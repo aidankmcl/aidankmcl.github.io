@@ -24,17 +24,18 @@ const skills = defineCollection({
 
 const projects = defineCollection({
   type: "content",
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    blurb: z.string(),
-    thumbnail: image(),
-    skills: z.array(reference("skills")),
-    start: z.date(),
-    end: z.date().optional(),
-    git: z.string().optional(),
-    featured: z.boolean().optional(),
-    company: reference("experiences").optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      blurb: z.string(),
+      thumbnail: image(),
+      skills: z.array(reference("skills")),
+      start: z.date(),
+      end: z.date().optional(),
+      git: z.string().optional(),
+      featured: z.boolean().optional(),
+      company: reference("experiences").optional(),
+    }),
 });
 
 export const collections = {

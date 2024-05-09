@@ -1,9 +1,7 @@
 ---
 import { getEntries } from "astro:content";
 import { getEntry } from "astro:content";
-// import { getCollection } from "astro:content";
 
-import Image from "../../components/Image.astro";
 import Layout from "layout/Layout.astro";
 import SectionHead from "layout/SectionHead.astro";
 import SectionBody from "layout/SectionBody.astro";
@@ -23,7 +21,6 @@ const project = await getEntry("projects", projectName);
 if (!project) return Astro.redirect("/#projects");
 
 const skills = await getEntries(project.data.skills);
-const company = await (project.data.company ? getEntry(project.data.company) : Promise.resolve(null));
 const { Content } = await project.render();
 ---
 

@@ -95,41 +95,85 @@ const { title } = Astro.props;
         }
       }
     </style>
-    <script>
-      const appContainer = document.querySelector(".app-container");
-      const contentContainer = appContainer?.querySelector("main");
 
-      const debounce = (callback: Function, wait: number) => {
-        let timeoutId: number | undefined = undefined;
-        return (...args: unknown[]) => {
-          window.clearTimeout(timeoutId);
-          timeoutId = window.setTimeout(() => {
-            callback.apply(null, args);
-          }, wait);
-        };
-      };
+    <style is:global>
+      @screen lt-lg {
+        html,
+        body {
+          font-size: 12px;
+        }
+      }
 
-      let currentScrollAmount = 0;
+      h1,
+      h2 {
+        --uno: header-text;
+      }
 
-      const updateScroll = debounce(() => {
-        contentContainer?.scrollBy({ top: currentScrollAmount, behavior: "smooth" });
-        currentScrollAmount = 0;
-      }, 10);
+      h3,
+      h4,
+      h5,
+      h6 {
+        --uno: subhead-text f-s-2 text-gray m-b-3;
+      }
 
-      // window.addEventListener(
-      //   "wheel",
-      //   (evt) => {
-      //     if (!(evt.target as HTMLElement).contains(appContainer)) {
-      //       console.log("hello!");
-      //     } else {
-      //       console.log("sorry!");
-      //       console.log(evt.deltaY, currentScrollAmount);
-      //       currentScrollAmount += evt.deltaY;
-      //       updateScroll();
-      //     }
-      //   },
-      //   true,
-      // );
-    </script>
+      ul li,
+      p {
+        --uno: body-text;
+      }
+
+      p:not(:last-child) {
+        --uno: m-b-6;
+      }
+
+      strong,
+      a {
+        --uno: text-purple fw-400;
+      }
+
+      hr {
+        --uno: b-t-2 b-purple;
+      }
+
+      .markdown {
+        ul {
+          list-style: circle;
+          --uno: p-l-5 m-b-6;
+        }
+
+        a {
+          --uno: underline;
+        }
+
+        img {
+          max-height: 90vh;
+          --uno: object-contain m-b-6;
+        }
+      }
+
+      /*
+        * Based on: https://codepen.io/kootoopas/pen/kGPoaB
+        * Twitter: @kootoopas
+        * Using: https://www.toptal.com/designers/subtlepatterns/memphis-mini-pattern/
+        */
+
+      @keyframes bg-scrolling-reverse {
+        100% {
+          background-position: 400px 400px;
+        }
+      }
+
+      @keyframes bg-scrolling {
+        0% {
+          background-position: 400px 400px;
+        }
+      }
+      /* Main styles */
+      .squiggle-loader {
+        text-align: center;
+        background: url("../assets/images/graphics/pattern.png") repeat 0 0;
+        animation: bg-scrolling-reverse 8s infinite;
+        animation-timing-function: linear;
+      }
+    </style>
   </body>
 </html>

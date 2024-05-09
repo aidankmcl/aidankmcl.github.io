@@ -76,7 +76,6 @@ import { constants } from "~/ui";
       linksContainer?.classList.toggle("open", !sidebarOpen);
 
       if (!sidebarOpen) {
-        console.log(document.getElementById("links-container")?.classList);
         const abortController = new AbortController();
         window.addEventListener(
           "click",
