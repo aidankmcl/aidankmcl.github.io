@@ -17,22 +17,24 @@ export interface Props {
 const { experiences } = Astro.props;
 const experiencesByCompany: Record<string, Props["experiences"]> = {};
 const skillsByCompany: Record<string, Skill[]> = {};
-experiences
-  .sort((a, b) => b.data.start.getTime() - a.data.start.getTime())
-  .forEach(async (experience) => {
-    const { company } = experience.data;
+await Promise.all(
+  experiences
+    .sort((a, b) => b.data.start.getTime() - a.data.start.getTime())
+    .map(async (experience) => {
+      const { company } = experience.data;
 
-    experiencesByCompany[company] = experiencesByCompany[company] || [];
-    experiencesByCompany[company].push(experience);
+      experiencesByCompany[company] = experiencesByCompany[company] || [];
+      experiencesByCompany[company].push(experience);
 
-    skillsByCompany[company] = skillsByCompany[company] || [];
-    const companySkills = await getEntries(experience.data.skills);
-    skillsByCompany[company].push(
-      ...companySkills.filter(
-        (skill) => !skillsByCompany[company].map((existingSkill) => existingSkill.id).includes(skill.id),
-      ),
-    );
-  });
+      skillsByCompany[company] = skillsByCompany[company] || [];
+      const companySkills = await getEntries(experience.data.skills);
+      skillsByCompany[company].push(
+        ...companySkills.filter(
+          (skill) => !skillsByCompany[company].map((existingSkill) => existingSkill.id).includes(skill.id),
+        ),
+      );
+    }),
+);
 ---
 
 <div>

@@ -8,6 +8,7 @@ import SkillsBreakdown from "../components/skills/SkillsBreakdown.astro";
 import Experiences from "../components/Experiences.astro";
 
 import House from "../assets/images/graphics/House.png";
+import Project from "components/projects/Project.astro";
 import ProjectList from "components/projects/ProjectList.astro";
 
 // Get all entries from a collection.
@@ -18,9 +19,11 @@ const experiences = await getCollection("experiences");
 const projects = await getCollection("projects");
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Aidan Works">
   <section id="intro" class="scroll-section">
-    <SectionHead class="sticky top-0 z-1" img={House}> Hi!<br /> I'm Aidan!</SectionHead>
+    <SectionHead class="sticky top-0 z-1" img={House}>
+      Hi!&nbsp;<br />&nbsp;I'm Aidan!
+    </SectionHead>
     <SectionBody class="b-y-2 b-purple relative z-2">
       <p class="body-text">
         I’m a software engineer who enjoys working on interactive experiences. I’ve been creating web apps since 2014
@@ -30,29 +33,38 @@ const projects = await getCollection("projects");
       <p class="body-text">
         Outside of work, I’m excited about running, VR/AR, woodworking, traveling, design, video games, and coffee!
       </p>
+
+      <h3>Featured Projects</h3>
+      <ul class="md:columns-2 xl:grid xl:grid-flow-col" style="grid-auto-columns: 1fr">
+        {
+          projects
+            .filter((p) => p.data.featured)
+            .map((p) => (
+              <li class="m-b-10 lg:m-b-6 break-inside-avoid inline-block">
+                <Project project={p} class="flex flex-col h-full" />
+              </li>
+            ))
+        }
+      </ul>
     </SectionBody>
   </section>
 
   <section id="experience" class="scroll-section">
-    <SectionHead class="sticky top-0 z-1" img={House}>
-      Hi!<br /> I'm Aidan!
-    </SectionHead>
+    <SectionHead class="sticky top-0 z-1"><span class="inline-block m-y-20">Experiences</span></SectionHead>
     <SectionBody class="b-y-2 b-purple relative z-2">
       <Experiences experiences={experiences} />
     </SectionBody>
   </section>
 
   <section id="projects" class="scroll-section">
-    <SectionHead class="sticky top-0 z-1" img={House}> Hi!<br /> I'm Aidan!</SectionHead>
+    <SectionHead class="sticky top-0 z-1"><span class="inline-block m-y-20">Projects</span></SectionHead>
     <SectionBody class="b-y-2 b-purple relative z-2">
       <ProjectList projects={projects} />
     </SectionBody>
   </section>
 
   <section id="skills" class="scroll-section">
-    <SectionHead class="sticky top-0 z-1" img={House}>
-      What Can I<br />Do For You?
-    </SectionHead>
+    <SectionHead class="sticky top-0 z-1"><span class="inline-block m-y-20">Skills</span></SectionHead>
     <SectionBody class="b-t-2 b-purple relative z-2">
       <SkillsBreakdown skills={skills} />
     </SectionBody>

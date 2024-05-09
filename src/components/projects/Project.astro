@@ -20,10 +20,10 @@ const { project, class: className } = Astro.props;
       alt={`Thumbnail for project ${project.data.title}`}
       src={project.data.thumbnail}
       quality={50}
-      class="w-full object-cover"
+      class="w-full object-cover flex-grow-0"
       height="300px"
     />
-    <div class="p-6 b-t-2 b-purple flex flex-col justify-between">
+    <div class="p-6 b-t-2 b-purple flex flex-col justify-between h-full">
       <div>
         <strong class="header-text f-s-2 block m-b-3">{project.data.title}</strong>
         <p class="m-b-0">{project.data.blurb}</p>

@@ -14,7 +14,7 @@ export interface Props {
 const { id, img, class: className, cover } = Astro.props;
 ---
 
-<div id={id} class={`bg-light-purple p-10 z-1 relative ${className || ""} ${cover ? "cover" : ""}`}>
+<div id={id} class={`bg-light-purple p-10 z-1 relative ${className || ""} ${cover ? "cover" : "standard"}`}>
   {
     cover && (
       <button class="back-button absolute top-6 left-6 z-3 transition-all text-white bg-purple hover:bg-darkPurple p-2 f-s-0 lg:p-3 lg:f-s-1">
@@ -22,10 +22,10 @@ const { id, img, class: className, cover } = Astro.props;
       </button>
     )
   }
-  <div class="header-container flex justify-around items-center">
+  <div class="header-container flex flex-col justify-between items-center md:flex-row md:justify-evenly">
     {
       img && (
-        <div class="cover-image">
+        <div class="cover-image m-b-10 md:m-b-0">
           <Image
             alt="Section header image"
             src={img}
@@ -39,34 +39,48 @@ const { id, img, class: className, cover } = Astro.props;
     }
 
     <div class="relative z-1">
-      <h2 class="header-text">
-        <slot />
+      <h2 class="title header-text">
+        <mark>
+          <slot />
+        </mark>
       </h2>
     </div>
   </div>
 </div>
 
 <style>
-  .cover .header-container {
-    min-height: 300px;
+  .title mark {
+    --uno: bg-purple p-x-4 p-y-1 text-white;
+    line-height: 1.5;
   }
 
-  .cover .cover-image,
-  .cover .cover-image::before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  .cover {
+    .header-container {
+      min-height: 300px;
+    }
+
+    .cover-image,
+    .cover-image::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .cover-image::before {
+      content: " ";
+      background: rgba(0, 0, 0, 0.25);
+    }
   }
 
-  .cover .cover-image::before {
-    content: " ";
-    background: rgba(0, 0, 0, 0.25);
-  }
-
-  .cover .header-text {
-    --uno: bg-purple p-x-6 p-y-4 text-white;
+  .standard {
+    .cover-image {
+      img {
+        max-height: 300px;
+        object-fit: contain;
+      }
+    }
   }
 </style>
 
