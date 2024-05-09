@@ -12,7 +12,7 @@ const AttackOfTheBlocks = () => {
       />
 
       <div className="mt-3 mt-lg-5">
-        <h1>Quiz Game</h1>
+        <h1>A Tech of the Blocks</h1>
 
         <a
           className="d-inline-block mb-3"

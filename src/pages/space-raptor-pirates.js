@@ -17,7 +17,7 @@ const SpaceRaptorPirates = () => {
         </p>
 
         <p>
-          As of now, the game is an ongoing project manifested in three basic prototypes - one in 2D, one in 3D and another in Virtual Reality. I've added some screenshots and videos of the different versions below to give a feel for the idea!
+          As of now, the game is an ongoing project manifested in three basic prototypes - one in 2D, two in 3D and another in Virtual Reality. I've added some screenshots and videos of the different versions below to give a feel for the idea!
         </p>
 
         <img alt="Space Raptor Pirates in 2D" className="my-4 w-100" src={srp2DGif} />
