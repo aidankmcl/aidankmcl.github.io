@@ -1,0 +1,28 @@
+---
+title: A Small Number
+thumbnail: ../../assets/images/projects/a-small-number/a-small-number.png
+blurb: Inspired by the survival genre and the show The 100, a collaboration with my brother.
+skills:
+- ts
+- html
+- css
+- threejs
+start: 2021-01-06
+end: 2021-02-03
+git: https://github.com/boombador/a-small-number
+featured: false
+---
+import Image from "../../components/Image.astro";
+
+import uiIMG from "../../assets/images/projects/a-small-number/a-small-number.png";
+
+My brother and I worked on this game after watching "The 100," a series about humans re-colonizing Earth after a nuclear apocalypse. The concept is that you choose what tasks people are allocated to over a day and balance resources with defending your settlement and scouting out more of the area. The bulk of the interface lies in task allocation and the right side is essentially a journal of each day's events that updates each time you wrap up your daily allocations.
+
+<Image src={uiIMG} alt="Game interface" class="m-b-6" />
+
+The cubes above are the beginnings of rendering a town that reflects your current population. Some thoughts on future work:
+
+- Create basic models in Blender for settlement buildings as well as natural resources in the area.
+- Add system for managing interactions with newly discovered settlements, maybe with protocols for engagement chosen at time of task allocation (e.g. try to befriend vs attack).
+- I think this game would be a good candidate for using an LLM as a procedural dungeon master who could develop the lore of the world as you progress.
+- Prettier UI :)

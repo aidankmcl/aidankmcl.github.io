@@ -1,0 +1,48 @@
+---
+import { constants } from "~/ui";
+
+const { purple, lightPurple } = constants.colors;
+
+type Props = {
+  type: "fill" | "light" | "outline";
+  class?: string;
+  small?: boolean;
+};
+
+const { type, class: className, small } = Astro.props;
+---
+
+<span
+  class={"pill inline-block font-subhead m-r-3 fw-600 b-purple b-2 f-s-3 lg:f-s-4 " +
+    type +
+    ` ${className || ""} ${small ? "small" : ""}`}
+>
+  <slot />
+</span>
+
+<style define:vars={{ mainPurple: purple, accentPurple: lightPurple }}>
+  .pill {
+    border-radius: 2em;
+    padding: 0.35em 0.6em 0.2em;
+  }
+
+  .pill.small {
+    padding: 0.3em 0.6em 0.05em;
+  }
+
+  .pill.fill {
+    color: white;
+    background-color: var(--mainPurple);
+  }
+
+  .pill.light {
+    color: var(--mainPurple);
+    background-color: var(--accentPurple);
+  }
+
+  .pill.outline {
+    color: var(--mainPurple);
+    background-color: white;
+    outline: none;
+  }
+</style>

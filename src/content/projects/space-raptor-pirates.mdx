@@ -1,0 +1,57 @@
+---
+title: Space Raptor Pirates
+thumbnail: ../../assets/images/projects/srp/srp-overview.png
+blurb: Hold on to your butts, you'll need to defend your spaceship from scaly bandits.
+skills:
+- blender
+- unity
+- unreal
+- js
+- html
+- node
+- vr
+start: 2015-09-29
+featured: true
+---
+import Image from "../../components/Image.astro";
+import Video from "../../components/Video.astro";
+
+import srp2DGif from "../../assets/images/projects/srp/srp-2D-demo.gif";
+
+I've had this game idea rolling around my mind for a long time: you're on a cargo ship and need to get from point A to point B while defending against pirates. I wanted the player to have advanced tools/abilities at their disposal and set the game in the distant future where space-faring is commonplace. Finally, for the raptor bit I've just always wanted to make a game with anthropomorphic dinosaurs and I figured it could add some flavor to the game.
+
+As of now, the game is an ongoing project represented by a handful of exploratory prototypes - one in 2D, two in 3D (Unity and now Unreal) and another in Virtual Reality. I've added some screenshots and videos of the different versions below to give a feel for the idea!
+
+### 2D on Web
+
+The 2D iteration is the first that I made (dating back to 2015!), focusing on a core concept of having sectors that each control a different life support system on the ship. If the player isn't in the room, the enemies (represented by the placeholder triceratops) attack a console and lower the "health" of the sector. This sector health can be repaired and that life support system restored, e.g. if the power generation sector is taken offline, the lights would be dimmed aside from rotating red beacon light. This iteration features base navigation, fighting and repair mechanics with some exploration of multiplayer using sockets.io. Aside from the dinosaur characters and web page background, I made the graphics shown below in Figma.
+
+<Image alt="Space Raptor Pirates in 2D" class="m-y-6 w-full bg-purple lg:p-x-40 lg:p-y-1" width="100%" src={srp2DGif} />
+
+### VR in Unity
+
+The next version is in VR, I've been a big fan of the medium ever since trying the Vive for the first time in 2016. I found free assets for a spaceship and gun online and made a raptor model in Blender that's featured in the video. In this prototype, the raptors move from waypoint to waypoint and the player can eliminate them with their pistol.
+
+This first video comes from initial testing of the waypoint system, using the debug view as opposed to driving with HMD:
+
+<Video src="https://drive.google.com/file/d/1XhXLH1FOnerHTpm_YEwZxACF-72TBxGU/preview" alt="Raptor walking around ship" />
+
+This second video demonstrates an implementation of a basic health system as well as pistol firing:
+
+<Video src="https://drive.google.com/file/d/1KdqczTOTSQWPIM2Crbups93f19f0GCH4/preview" alt="Sample of Space Raptor Pirates gameplay" />
+
+I'm excited to return to this version, however after working with it off and on for a while I felt I needed to step back and focus on higher level gameplay a bit. For that reason, I decided to temporarily move from VR to "flatscreen" for more time efficient workshopping, with the goal of moving back to VR once the game is proved out.
+
+### 3D in Unity
+
+In this prototype, I wanted to start with level blocking and enemy AI. I developed a basic set of rules for automating enemy searching and worked on chasing when the player is seen:
+
+<Video src="https://drive.google.com/file/d/1Jg1PsqL0AlefcpH57Pf5dz_TUooz1WFC/preview" alt="Sphere raptor chasing player" />
+
+### Current: 3D in Unreal Engine
+
+The last 3D prototype lost a bit of a steam during 2020 and I ended up not returning to it after a big move. I continued to think about this concept for years though and I've finally returned to the project. This time I was excited by all of the powerful features that have been landing in Unreal Engine 5 and I wanted to try them out myself. I chose to do regular 3D over VR both for the initial reason and because I am learning a new engine, so I wanted to get acclimated first before diving into VR.
+
+I started things off with level blocking, with some focus on smaller props to signify the function of different areas and create some atmosphere. My goal is to find something that's good enough to workshop gameplay dynamics without going too deep, as I expect that layout / movement will feel different enough in VR to merit a rework. I grabbed a free raptor model from online for prototyping and so far have animated him to chase the player on sight:
+
+<Video src="https://drive.google.com/file/d/1ZndbESY0Wx11Xbxavfgxnc_meKcgNq4s/preview" alt="Regular raptor chasing player" />

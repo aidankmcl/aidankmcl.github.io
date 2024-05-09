@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import Pill from "../Pill.astro";
+
+type Skill = CollectionEntry<"skills">;
+
+export interface Props {
+  skill: Skill;
+  short?: boolean;
+}
+
+const { skill, short } = Astro.props;
+const pillType = skill.data.type === "primary" ? "fill" : skill.data.type === "secondary" ? "light" : "outline";
+---
+
+<div class={"skill-container flex items-center "}>
+  {
+    short ? (
+      <>
+        <Pill type={pillType} small={short}>
+          {skill.data.title}
+        </Pill>
+      </>
+    ) : (
+      <>
+        <Pill class="ws-nowrap" type={pillType} small={short}>
+          {skill.data.type === "hobby"
+            ? "Hobby"
+            : skill.data.years > 1
+              ? skill.data.years + " Years"
+              : skill.data.years + " Year"}
+        </Pill>
+        <span class="body-text p-t-1">{skill.data.title}</span>
+      </>
+    )
+  }
+</div>

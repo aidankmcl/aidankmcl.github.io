@@ -1,0 +1,16 @@
+---
+import { constants } from "~/ui";
+
+export type Props = {
+  id?: string;
+  class?: string;
+};
+
+const { id, class: className } = Astro.props;
+---
+
+<div id={id} class={"squiggle-loader flex items-center justify-center " + (className || "")}>
+  <strong class="header-text bg-white text-center text-purple f-s-2 w-full md:f-s-0 lg:w-75">
+    <slot />
+  </strong>
+</div>

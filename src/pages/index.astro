@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+
+import Layout from "../layout/Layout.astro";
+import SectionHead from "../layout/SectionHead.astro";
+import SectionBody from "../layout/SectionBody.astro";
+import SkillsBreakdown from "../components/skills/SkillsBreakdown.astro";
+import Experiences from "../components/Experiences.astro";
+
+import House from "../assets/images/graphics/House.png";
+import ProjectList from "components/projects/ProjectList.astro";
+
+// Get all entries from a collection.
+// Requires the name of the collection as an argument.
+// Example: retrieve `src/content/blog/**`
+const skills = await getCollection("skills");
+const experiences = await getCollection("experiences");
+const projects = await getCollection("projects");
+---
+
+<Layout title="Welcome to Astro.">
+  <section id="intro" class="scroll-section">
+    <SectionHead class="sticky top-0 z-1" img={House}> Hi!<br /> I'm Aidan!</SectionHead>
+    <SectionBody class="b-y-2 b-purple relative z-2">
+      <p class="body-text">
+        I’m a software engineer who enjoys working on interactive experiences. I’ve been creating web apps since 2014
+        and I’m most motivated by causes focused on positive social impact.
+      </p>
+
+      <p class="body-text">
+        Outside of work, I’m excited about running, VR/AR, woodworking, traveling, design, video games, and coffee!
+      </p>
+    </SectionBody>
+  </section>
+
+  <section id="experience" class="scroll-section">
+    <SectionHead class="sticky top-0 z-1" img={House}>
+      Hi!<br /> I'm Aidan!
+    </SectionHead>
+    <SectionBody class="b-y-2 b-purple relative z-2">
+      <Experiences experiences={experiences} />
+    </SectionBody>
+  </section>
+
+  <section id="projects" class="scroll-section">
+    <SectionHead class="sticky top-0 z-1" img={House}> Hi!<br /> I'm Aidan!</SectionHead>
+    <SectionBody class="b-y-2 b-purple relative z-2">
+      <ProjectList projects={projects} />
+    </SectionBody>
+  </section>
+
+  <section id="skills" class="scroll-section">
+    <SectionHead class="sticky top-0 z-1" img={House}>
+      What Can I<br />Do For You?
+    </SectionHead>
+    <SectionBody class="b-t-2 b-purple relative z-2">
+      <SkillsBreakdown skills={skills} />
+    </SectionBody>
+  </section>
+</Layout>

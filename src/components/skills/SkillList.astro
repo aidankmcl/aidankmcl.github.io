@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import Skill from "./Skill.astro";
+
+type Skill = CollectionEntry<"skills">;
+
+export interface Props {
+  skills: Skill[];
+  skillClasses?: string;
+  short?: boolean;
+  bare?: boolean;
+  class?: string;
+}
+
+export const sortSkills = (skills: Skill[]) => {
+  return skills
+    .sort((a, b) => b.data.years - a.data.years)
+    .sort((A: Skill, B: Skill) => {
+      let a = A.data.type;
+      let b = B.data.type;
+
+      return a === b ? 0 : a === "primary" || (a === "secondary" && b === "hobby") ? -1 : 1;
+    });
+};
+
+const { skills, skillClasses, short, bare, class: className } = Astro.props;
+---
+
+<ul class={className}>
+  {
+    sortSkills(skills).map((skill) => (
+      <li class={`m-b-3 ${short ? "inline-block" : ""} ${skillClasses || ""}`}>
+        {bare ? (
+          <strong class="fw-600 f-s-4 m-6 m-t-0 m-l-0 text-darkPurple">{skill.data.title}</strong>
+        ) : (
+          <Skill skill={skill} short={short} />
+        )}
+      </li>
+    ))
+  }
+</ul>

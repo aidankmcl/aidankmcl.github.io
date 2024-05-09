@@ -1,0 +1,86 @@
+---
+import type { ImageMetadata } from "astro";
+import { Icon } from "astro-icon/components";
+
+import Image from "../components/Image.astro";
+
+export interface Props {
+  img?: ImageMetadata;
+  id?: string;
+  class?: string;
+  cover?: boolean;
+}
+
+const { id, img, class: className, cover } = Astro.props;
+---
+
+<div id={id} class={`bg-light-purple p-10 z-1 relative ${className || ""} ${cover ? "cover" : ""}`}>
+  {
+    cover && (
+      <button class="back-button absolute top-6 left-6 z-3 transition-all text-white bg-purple hover:bg-darkPurple p-2 f-s-0 lg:p-3 lg:f-s-1">
+        <Icon name="mdi:chevron-left" />
+      </button>
+    )
+  }
+  <div class="header-container flex justify-around items-center">
+    {
+      img && (
+        <div class="cover-image">
+          <Image
+            alt="Section header image"
+            src={img}
+            class="object-cover"
+            width="100%"
+            height="100%"
+            style={{ width: "100%", height: "100%" }}
+          />
+        </div>
+      )
+    }
+
+    <div class="relative z-1">
+      <h2 class="header-text">
+        <slot />
+      </h2>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cover .header-container {
+    min-height: 300px;
+  }
+
+  .cover .cover-image,
+  .cover .cover-image::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .cover .cover-image::before {
+    content: " ";
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .cover .header-text {
+    --uno: bg-purple p-x-6 p-y-4 text-white;
+  }
+</style>
+
+<script>
+  function init() {
+    document.querySelector(".back-button")?.addEventListener(
+      "click",
+      () => {
+        window.history.back();
+      },
+      { once: true },
+    );
+  }
+
+  init();
+  document.addEventListener("astro:after-swap", init);
+</script>

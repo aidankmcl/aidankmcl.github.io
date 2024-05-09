@@ -1,0 +1,36 @@
+{
+  "name": "portfolio-new",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "format": "prettier 'src/**/*.{ts,tsx}' --write"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.5.10",
+    "@astrojs/mdx": "^2.3.1",
+    "@astrojs/solid-js": "^4.1.0",
+    "@iconify-json/mdi": "^1.1.66",
+    "@solid-primitives/resize-observer": "^2.0.25",
+    "@unocss/astro": "^0.59.4",
+    "@unocss/preset-icons": "^0.59.4",
+    "@unocss/preset-uno": "^0.59.4",
+    "@unocss/preset-web-fonts": "^0.59.4",
+    "@unocss/reset": "^0.59.4",
+    "astro": "^4.7.1",
+    "astro-icon": "^1.1.0",
+    "sharp": "^0.33.3",
+    "solid-js": "^1.8.17",
+    "typescript": "^5.4.5",
+    "unocss": "^0.59.4"
+  },
+  "devDependencies": {
+    "@unocss/transformer-directives": "^0.59.4",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0"
+  }
+}

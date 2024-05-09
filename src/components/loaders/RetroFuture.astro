@@ -1,0 +1,107 @@
+---
+import { constants } from "~/ui";
+
+export type Props = {
+  id?: string;
+  class?: string;
+};
+
+const { id, class: className } = Astro.props;
+---
+
+<div id={id} class={"wrapper " + (className || "")}>
+  <slot />
+  <div class="parent">
+    <div class="top-plane"></div>
+    <div class="bottom-plane"></div>
+  </div>
+</div>
+
+<style
+  define:vars={{
+    nodeStreak: constants.colors["darkPurple"],
+    computationalFogTop: constants.colors["purple"],
+    computationalFogBot: constants.colors["purple"],
+    visualDistortionZapper: "360px",
+    nanoVelocity: "2s",
+  }}
+>
+  .wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    background: linear-gradient(
+      var(--computationalFogTop) 25%,
+      var(--nodeStreak) 50%,
+      var(--nodeStreak) 50%,
+      var(--computationalFogBot) 100%
+    );
+  }
+
+  .parent {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: 0 auto;
+    perspective: var(--visualDistortionZapper);
+    perspective-origin: 50% 50%;
+  }
+
+  .top-plane,
+  .bottom-plane {
+    width: 200%;
+    height: 130%;
+    position: absolute;
+    bottom: -30%;
+    left: -50%;
+    background-image:
+      -webkit-linear-gradient(var(--nodeStreak) 2px, transparent 2px),
+      -webkit-linear-gradient(left, var(--nodeStreak) 2px, transparent 2px);
+    background-size:
+      100px 100px,
+      100px 100px;
+    background-position:
+      -1px -1px,
+      -1px -1px;
+    transform: rotateX(85deg);
+    animation: planeMoveTop var(--nanoVelocity) infinite linear;
+  }
+
+  .bottom-plane {
+    transform: rotateX(-85deg);
+    top: -30%;
+    animation: planeMoveBot var(--nanoVelocity) infinite linear;
+  }
+
+  @keyframes planeMoveTop {
+    from {
+      background-position:
+        0px -100px,
+        0px 0px;
+    }
+    to {
+      background-position:
+        0px 0px,
+        100px 0px;
+    }
+  }
+
+  @keyframes planeMoveBot {
+    from {
+      background-position:
+        0px 0px,
+        0px 0px;
+    }
+    to {
+      background-position:
+        0px -100px,
+        100px 0px;
+    }
+  }
+
+  @media (max-height: 350px) {
+    .parent {
+      perspective: var(--visualDistortionZapper) - 150;
+    }
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import Skill from "./Skill.astro";
+import Pill from "../Pill.astro";
+import SkillList from "./SkillList.astro";
+
+type Skill = CollectionEntry<"skills">;
+
+export interface Props {
+  skills: Skill[];
+}
+
+const { skills } = Astro.props;
+const skillsByCategory: Record<string, Props["skills"]> = {};
+skills.forEach((skill) => {
+  skillsByCategory[skill.data.category] = skillsByCategory[skill.data.category] || [];
+  skillsByCategory[skill.data.category].push(skill);
+});
+
+const categoryOrder: Array<Skill["data"]["category"]> = [
+  "Languages",
+  "Frameworks",
+  "Dev Tooling + Infra",
+  "Databases",
+  "Design",
+  "3D",
+];
+---
+
+<div>
+  <ul>
+    <li class="flex items-baseline">
+      <Pill class="flex-shrink-0" type="fill"># Years</Pill>
+      <p class="body-text">This marker indicates the number of years I've spent working regularly with a technology.</p>
+    </li>
+
+    <li class="flex items-baseline m-t-4">
+      <Pill class="flex-shrink-0" type="light"># Years</Pill>
+      <p class="body-text">
+        Signifies that the skill wasn’t my primary responsibility in previous projects or my experience is dated.
+      </p>
+    </li>
+
+    <li class="flex items-baseline m-t-4">
+      <Pill class="flex-shrink-0" type="outline">Hobby</Pill>
+      <p class="body-text m-t-1">Used for skills that I've developed outside of work positions.</p>
+    </li>
+  </ul>
+
+  <ul class="columns-1 md:columns-2 m-t-10">
+    {
+      categoryOrder
+        .map((category) => ({ category, skills: skillsByCategory[category] }))
+        .map(({ category, skills }) => (
+          <li class="w-full flex flex-col justify-left align-start break-inside-avoid">
+            <h1 class="header-text text-gray m-b-4">{category}</h1>
+
+            <SkillList skills={skills} class="m-b-10 columns-1 sm:columns-2 md:columns-1" />
+          </li>
+        ))
+    }
+  </ul>
+</div>

@@ -1,0 +1,128 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getEntries } from "astro:content";
+import { Icon } from "astro-icon/components";
+
+import { capitalize, displayDateRange } from "~/utils";
+import Skill from "./skills/Skill.astro";
+import SkillList from "./skills/SkillList.astro";
+
+type Experience = CollectionEntry<"experiences">;
+type Skill = CollectionEntry<"skills">;
+
+export interface Props {
+  experiences: Experience[];
+}
+
+const { experiences } = Astro.props;
+const experiencesByCompany: Record<string, Props["experiences"]> = {};
+const skillsByCompany: Record<string, Skill[]> = {};
+experiences
+  .sort((a, b) => b.data.start.getTime() - a.data.start.getTime())
+  .forEach(async (experience) => {
+    const { company } = experience.data;
+
+    experiencesByCompany[company] = experiencesByCompany[company] || [];
+    experiencesByCompany[company].push(experience);
+
+    skillsByCompany[company] = skillsByCompany[company] || [];
+    const companySkills = await getEntries(experience.data.skills);
+    skillsByCompany[company].push(
+      ...companySkills.filter(
+        (skill) => !skillsByCompany[company].map((existingSkill) => existingSkill.id).includes(skill.id),
+      ),
+    );
+  });
+---
+
+<div>
+  <ul>
+    {
+      Object.entries(experiencesByCompany).map(([company, jobs], i) => {
+        const jobsDescending = jobs.sort((a, b) => a.data.start.getTime() - b.data.start.getTime());
+        let isLastItem = i === Object.keys(experiencesByCompany).length - 1;
+
+        return (
+          <li class={"experience p-5 b-purple " + (isLastItem ? "" : "p-b-3 b-b-2") + (i === 0 ? " open" : "")}>
+            <div class="flex flex-col lg:flex-row justify-between m-b-3 lg:m-y-3">
+              <h3 class="subhead-text inline-block f-s-1 m-y-5 lg:m-t-0 lg:m-b-2 lg:m-r-5">
+                {jobsDescending[0].data.title} <br class="lg:hidden" />{" "}
+                <span class="text-purple block m-t-2 lg:m-t-0 lg:inline-block">@ {company}</span>
+              </h3>
+
+              <h3 class="subhead-text inline-block f-s-3 lg:f-s-2 ws-nowrap">
+                {displayDateRange(jobsDescending[0].data.start, jobsDescending[jobsDescending.length - 1].data.end)}
+                <Icon class="open-status inline vertical-top hidden lg:inline-block" name="mdi:chevron-down" />
+              </h3>
+            </div>
+
+            <div class="collapsible m-b-6">
+              {jobsDescending.map(async (job) => {
+                const { Content } = await job.render();
+
+                return (
+                  <>
+                    {jobsDescending.length > 1 && (
+                      <h4 class="m-t-5 m-b-4 f-s-3">
+                        {capitalize(job.data.type)}
+                        <span class="fw-300 inline-block m-l-4">{displayDateRange(job.data.start, job.data.end)}</span>
+                      </h4>
+                    )}
+                    <Content />
+                  </>
+                );
+              })}
+            </div>
+
+            <SkillList class="m-t-6" skills={skillsByCompany[company]} short bare />
+          </li>
+        );
+      })
+    }
+  </ul>
+</div>
+
+<style is:global>
+  @screen lg {
+    .experience:not(.open):hover {
+      cursor: pointer;
+      background: var(--lightPurple);
+    }
+
+    .experience .collapsible {
+      transition: all 300ms linear;
+    }
+
+    .experience:not(.open) .collapsible {
+      transition: all 0ms linear;
+      height: 0;
+      margin: 0;
+      --uno: -m-t-3;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .experience .open-status {
+      transition: all 400ms linear;
+    }
+
+    .experience.open .open-status {
+      transform: rotate(180deg);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  const experiences = document.querySelectorAll(".experience");
+
+  experiences.forEach((experienceSection) => {
+    experienceSection.addEventListener("click", () => {
+      let isOpen = experienceSection.classList.contains("open");
+      if (isOpen) return;
+
+      experiences.forEach((el) => el.classList.remove("open"));
+      experienceSection.classList.add("open");
+    });
+  });
+</script>

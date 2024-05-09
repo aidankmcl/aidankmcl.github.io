@@ -1,0 +1,25 @@
+---
+import type { JSX } from "astro/jsx-runtime";
+import { Image as AstroImage, type LocalImageProps } from "astro:assets";
+
+type Props = {
+  src: ImageMetadata;
+  alt: string;
+  width?: string;
+  height?: string;
+  quality?: LocalImageProps["quality"];
+  style?: JSX.CSSProperties;
+  class?: string;
+};
+
+const { src, alt, width, height, quality, style, class: className } = Astro.props;
+---
+
+<AstroImage
+  class={"max-h-full max-w-full squiggle-loader " + (className || "")}
+  onload="this.classList.remove('squiggle-loader')"
+  src={src}
+  alt={alt || ""}
+  quality={quality}
+  style={style}
+/>

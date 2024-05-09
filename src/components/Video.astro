@@ -1,0 +1,39 @@
+---
+import type { JSX } from "astro/jsx-runtime";
+import { Image as AstroImage, type LocalImageProps } from "astro:assets";
+
+import Loader from "./loaders/Squiggles.astro";
+
+type Props = {
+  src: string;
+  alt: string;
+  type?: "google-drive";
+  width?: string;
+  height?: string;
+  quality?: LocalImageProps["quality"];
+  style?: JSX.CSSProperties;
+  class?: string;
+};
+
+const { src, alt } = Astro.props;
+---
+
+<div class="video-container relative w-full h-0 m-b-6 bg-purple" style="padding-bottom: 56.25%;">
+  <Loader class="video-load-animation absolute top-0 left-0 w-full h-full">Video Loading:<br />{alt}</Loader>
+  <iframe id="video-frame" class="absolute top-0 left-0 w-full h-full b-0" src={src} allowfullscreen></iframe>
+</div>
+
+<script>
+  const videoContainers = document.querySelectorAll(".video-container");
+
+  videoContainers.forEach((videoContainer) => {
+    const loader = videoContainer.querySelector(".video-load-animation") as HTMLDivElement;
+    const iframe = videoContainer.querySelector("iframe") as HTMLIFrameElement;
+
+    if (iframe && loader) {
+      iframe.onload = () => {
+        loader.remove();
+      };
+    }
+  });
+</script>

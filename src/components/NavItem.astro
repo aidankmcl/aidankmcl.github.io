@@ -1,0 +1,59 @@
+---
+import { Icon } from "astro-icon/components";
+
+import { colors } from "../ui/constants";
+
+type Props = {
+  href: string;
+  active?: boolean;
+  id?: string;
+  class?: string;
+};
+
+const { href, active, id, class: className } = Astro.props;
+---
+
+<a
+  id={id}
+  href={href}
+  class={`py-1 my-3 f-s-1 f-500 subhead-text flex items-center ${active ? "active" : ""} ${className || ""}`}
+>
+  <slot />
+  <div class="pos-relative flex items-center bar-container">
+    <span class="bg-purple bar"></span>
+    <div id="icon-holder" class="inline-block vertical-top">
+      <Icon name="mdi:chevron-right" />
+    </div>
+  </div>
+</a>
+
+<style define:vars={{ activeColor: colors.purple }}>
+  .bar-container {
+    flex-grow: 1;
+  }
+
+  .bar {
+    width: 0;
+    height: 3px;
+    display: inline-block;
+    transition: width 0.3s ease-in-out;
+    margin-left: 14px;
+    margin-right: -1.1rem;
+    border-radius: 1px;
+  }
+
+  #icon-holder {
+    /* margin-left: -20px;
+    margin-right: -1.1rem; */
+  }
+
+  a:hover .bar,
+  a.active .bar {
+    width: 100%;
+  }
+
+  a:hover,
+  a.active {
+    color: var(--activeColor);
+  }
+</style>

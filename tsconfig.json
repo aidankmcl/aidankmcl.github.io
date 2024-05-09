@@ -1,0 +1,16 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "exclude": ["**/*.mdx"],
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "~/ui": ["./ui"],
+      "~/hooks": ["./hooks"],
+      "~/assets": ["./assets"],
+      "~/utils": ["./utils"],
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "moduleResolution": "node",
+  }
+}

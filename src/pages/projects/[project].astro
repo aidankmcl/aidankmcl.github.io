@@ -1,0 +1,39 @@
+---
+import { getEntries } from "astro:content";
+import { getEntry } from "astro:content";
+// import { getCollection } from "astro:content";
+
+import Image from "../../components/Image.astro";
+import Layout from "layout/Layout.astro";
+import SectionHead from "layout/SectionHead.astro";
+import SectionBody from "layout/SectionBody.astro";
+import SkillList from "components/skills/SkillList.astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = async () => {
+  const projects = await getCollection("projects");
+  return projects.map((entry) => ({
+    params: { project: entry.slug },
+  }));
+};
+
+const { project: projectName } = Astro.params;
+
+const project = await getEntry("projects", projectName);
+if (!project) return Astro.redirect("/#projects");
+
+const skills = await getEntries(project.data.skills);
+const company = await (project.data.company ? getEntry(project.data.company) : Promise.resolve(null));
+const { Content } = await project.render();
+---
+
+<Layout title={project.data.title}>
+  <SectionHead class="sticky top-0 z-1" img={project.data.thumbnail} cover>{project.data.title}</SectionHead>
+  <SectionBody class="b-t-2 b-purple relative z-2 m-b-10">
+    <SkillList class="m-b-5" skills={skills} short />
+
+    <div class="markdown">
+      <Content />
+    </div>
+  </SectionBody>
+</Layout>

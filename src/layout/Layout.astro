@@ -1,0 +1,135 @@
+---
+import { ViewTransitions } from "astro:transitions";
+
+import "@unocss/reset/normalize.css";
+
+import Sidebar from "./Sidebar.astro";
+import { constants } from "~/ui";
+
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="bg-purple">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body class="">
+    <div class="p-5 app-container">
+      <div class="sidebar b-purple">
+        <Sidebar />
+      </div>
+
+      <div class="content m-0 relative overflow-hidden">
+        <div class="relative h-full">
+          <main class="h-full overflow-auto relative">
+            <slot />
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <style
+      define:vars={{
+        purple: constants.colors["purple"],
+        lightPurple: constants.colors["lightPurple"],
+        borderRadius: "0.6rem",
+      }}
+      is:global
+    >
+      * {
+        box-sizing: border-box;
+      }
+
+      .app-container {
+        height: 100vh;
+        border-radius: 1rem;
+        max-width: 100rem;
+        margin: 0 auto;
+        display: grid;
+        grid-template-areas: "sidebar content";
+        grid-template-rows: 1fr;
+        grid-template-columns: min-content 1fr;
+      }
+
+      .sidebar {
+        grid-area: sidebar;
+        /* border-radius: 0.8rem 0 0 0.8rem; */
+        border-radius: var(--borderRadius) 0 0 var(--borderRadius);
+        overflow: hidden;
+      }
+
+      .content {
+        grid-area: content;
+        background: white;
+        border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+      }
+
+      .content main {
+        scrollbar-color: var(--purple) var(--lightPurple);
+        scrollbar-width: thin;
+      }
+
+      @screen lt-lg {
+        .app-container {
+          grid-template-areas: "sidebar" "content";
+          grid-template-rows: min-content 1fr;
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          border-radius: var(--borderRadius) var(--borderRadius) 0 0;
+        }
+
+        .content {
+          border-radius: 0 0 var(--borderRadius) var(--borderRadius);
+        }
+      }
+    </style>
+    <script>
+      const appContainer = document.querySelector(".app-container");
+      const contentContainer = appContainer?.querySelector("main");
+
+      const debounce = (callback: Function, wait: number) => {
+        let timeoutId: number | undefined = undefined;
+        return (...args: unknown[]) => {
+          window.clearTimeout(timeoutId);
+          timeoutId = window.setTimeout(() => {
+            callback.apply(null, args);
+          }, wait);
+        };
+      };
+
+      let currentScrollAmount = 0;
+
+      const updateScroll = debounce(() => {
+        contentContainer?.scrollBy({ top: currentScrollAmount, behavior: "smooth" });
+        currentScrollAmount = 0;
+      }, 10);
+
+      // window.addEventListener(
+      //   "wheel",
+      //   (evt) => {
+      //     if (!(evt.target as HTMLElement).contains(appContainer)) {
+      //       console.log("hello!");
+      //     } else {
+      //       console.log("sorry!");
+      //       console.log(evt.deltaY, currentScrollAmount);
+      //       currentScrollAmount += evt.deltaY;
+      //       updateScroll();
+      //     }
+      //   },
+      //   true,
+      // );
+    </script>
+  </body>
+</html>
