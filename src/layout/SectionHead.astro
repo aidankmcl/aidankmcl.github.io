@@ -22,10 +22,10 @@ const { id, img, class: className, cover } = Astro.props;
       </button>
     )
   }
-  <div class="header-container flex flex-col justify-between items-center md:flex-row md:justify-evenly">
+  <div class="header-container flex flex-col justify-evenly items-center md:flex-row md:justify-evenly">
     {
       img && (
-        <div class="cover-image m-b-10 md:m-b-0">
+        <div class={`cover-image ${cover ? "" : "m-b-10"} md:m-b-0`}>
           <Image
             alt="Section header image"
             src={img}
@@ -39,8 +39,8 @@ const { id, img, class: className, cover } = Astro.props;
     }
 
     <div class="relative z-1">
-      <h2 class="title header-text">
-        <mark>
+      <h2 class={`title header-text ${cover ? "bg-purple text-center p-x-4" : ""}`}>
+        <mark class={`bg-purple p-x-0 ${cover ? "" : "p-x-4"} md:p-x-4 p-y-1 text-white`}>
           <slot />
         </mark>
       </h2>
@@ -50,37 +50,30 @@ const { id, img, class: className, cover } = Astro.props;
 
 <style>
   .title mark {
-    --uno: bg-purple p-x-4 p-y-1 text-white;
     line-height: 1.5;
   }
 
-  .cover {
-    .header-container {
-      min-height: 300px;
-    }
-
-    .cover-image,
-    .cover-image::before {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-    }
-
-    .cover-image::before {
-      content: " ";
-      background: rgba(0, 0, 0, 0.25);
-    }
+  .cover .header-container {
+    min-height: 300px;
   }
 
-  .standard {
-    .cover-image {
-      img {
-        max-height: 300px;
-        object-fit: contain;
-      }
-    }
+  .cover .cover-image,
+  .cover .cover-image::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .cover .cover-image::before {
+    content: " ";
+    background: rgba(0, 0, 0, 0.25);
+  }
+
+  .standard .cover-image img {
+    max-height: 300px;
+    object-fit: contain;
   }
 </style>
 
