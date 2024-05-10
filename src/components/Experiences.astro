@@ -47,12 +47,12 @@ await Promise.all(
         return (
           <li class={"experience p-5 b-purple " + (isLastItem ? "" : "p-b-3 b-b-2") + (i === 0 ? " open" : "")}>
             <div class="flex flex-col lg:flex-row justify-between m-b-3 lg:m-y-3">
-              <h3 class="subhead-text inline-block f-s-1 m-y-5 lg:m-t-0 lg:m-b-2 lg:m-r-5">
+              <h3 class="subhead-text inline-block f-s-1 lg:f-s-3 xl:f-s-2 m-y-5 lg:m-t-0 lg:m-b-2 lg:m-r-5">
                 {jobsDescending[0].data.title} <br class="lg:hidden" />{" "}
                 <span class="text-purple block m-t-2 lg:m-t-0 lg:inline-block">@ {company}</span>
               </h3>
 
-              <h3 class="subhead-text inline-block f-s-3 lg:f-s-2 ws-nowrap">
+              <h3 class="subhead-text inline-block f-s-2 lg:f-s-3 xl:f-s-2 ws-nowrap">
                 {displayDateRange(jobsDescending[0].data.start, jobsDescending[jobsDescending.length - 1].data.end)}
                 <Icon class="open-status inline vertical-top hidden lg:inline-block" name="mdi:chevron-down" />
               </h3>

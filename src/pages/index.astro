@@ -32,11 +32,12 @@ const projects = await getCollection("projects");
       </p>
 
       <p class="body-text">
-        Outside of work, I’m excited about running, VR/AR, woodworking, traveling, design, video games, and coffee!
+        Outside of work, I’m excited about running, VR/AR, woodworking, traveling, design, video games, and coffee.
+        Otherwise we're usually watching TV or movies with our two sweet dogs!
       </p>
 
       <h3>Featured Projects</h3>
-      <ul class="mb-8 md:columns-2 xl:grid xl:grid-flow-col" style="grid-auto-columns: 1fr">
+      <ul class="mb-8 md:grid md:grid-flow-col" style="grid-auto-columns: 1fr">
         {
           projects
             .filter((p) => p.data.featured)
