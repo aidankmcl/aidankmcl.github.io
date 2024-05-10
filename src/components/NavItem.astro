@@ -16,12 +16,12 @@ const { href, active, id, class: className } = Astro.props;
 <a
   id={id}
   href={href}
-  class={`py-1 my-3 f-s-1 f-500 subhead-text flex items-center ${active ? "active" : ""} ${className || ""}`}
+  class={`nav-link py-1 my-3 f-s-1 f-500 subhead-text flex items-center ${active ? "active" : ""} ${className || ""}`}
 >
   <slot />
   <div class="pos-relative flex items-center bar-container">
     <span class="bg-purple bar"></span>
-    <div id="icon-holder" class="inline-block vertical-top">
+    <div class="inline-block vertical-top">
       <Icon name="mdi:chevron-right" />
     </div>
   </div>
@@ -42,11 +42,6 @@ const { href, active, id, class: className } = Astro.props;
     border-radius: 1px;
   }
 
-  #icon-holder {
-    /* margin-left: -20px;
-    margin-right: -1.1rem; */
-  }
-
   a:hover .bar,
   a.active .bar {
     width: 100%;
@@ -57,3 +52,76 @@ const { href, active, id, class: className } = Astro.props;
     color: var(--activeColor);
   }
 </style>
+
+<script>
+  function init() {
+    const container = document.querySelector("main");
+    const links = document.querySelectorAll(".nav-link");
+
+    const scrollSections = ([...(document.querySelectorAll(".scroll-section") || [])] as HTMLElement[]).sort(
+      (a, b) => b.offsetTop - a.offsetTop,
+    );
+
+    const targetLocation = window.location.hash.replace("#", "");
+    scrollToSection(targetLocation);
+
+    links.forEach((el) => {
+      const target = ((el as HTMLAnchorElement).getAttribute("href") || "").replace("/", "");
+      if (target[0] === "#") {
+        el.addEventListener("click", () => scrollToSection(target.replace("#", "")));
+      }
+    });
+
+    window.addEventListener("load", checkScroll);
+
+    if (container && scrollSections.length) container.addEventListener("scroll", checkScroll);
+
+    document.addEventListener("astro:before-swap", () => {
+      window.removeEventListener("load", checkScroll);
+      if (container && scrollSections.length) {
+        container.removeEventListener("scroll", checkScroll);
+      }
+    });
+
+    function checkScroll() {
+      if (!container) return;
+
+      const currentSection = scrollSections.find((section) => {
+        let sectionTop = section.offsetTop;
+        let scrollHeight = container.scrollTop;
+
+        return scrollHeight > sectionTop - 20;
+      });
+
+      if (currentSection) {
+        let currentHighlight = [...links].find((el) => el.classList.contains("active"));
+
+        if (!currentHighlight || currentHighlight.id !== currentSection.id) {
+          links.forEach((el) => {
+            el.classList.remove("active");
+          });
+
+          let sidebarLink = document.getElementById(currentSection.id);
+          sidebarLink?.classList.add("active");
+          window.history.pushState({ urlPath: window.location.pathname }, "", "#" + currentSection.id);
+        }
+      }
+    }
+
+    function scrollToSection(id?: string | undefined) {
+      if (!id) return;
+
+      let targetSection = scrollSections.find((section) => section.id === id);
+      if (targetSection && container) {
+        container.scrollTo({
+          top: targetSection.offsetTop,
+          behavior: "smooth",
+          // behavior: "instant",
+        });
+      }
+    }
+  }
+
+  init();
+  document.addEventListener("astro:after-swap", init);
+</script>

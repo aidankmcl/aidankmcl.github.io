@@ -13,14 +13,14 @@ import { constants } from "~/ui";
     <Icon id="menu-toggle" name="mdi:menu" class="f-s-0 text-purple" />
   </div>
 
-  <hr class="b-purple b-1 my-6 hidden lg:block" />
+  <hr class="b-purple b-1 mt-6 hidden lg:block" />
 
   <div id="links-container" class="flex flex-col grow lg:justify-between h-full">
     <ul class="mt-3">
       {
         constants.links.nav.map((link) => (
-          <li>
-            <NavItem id={link.href} class="navbar-link lg:f-s-2 xl:f-s-1" href={`/#${link.href}`}>
+          <li class="m-b-6 lg:m-b-0">
+            <NavItem id={link.href} class="navbar-link f-s-0 lg:f-s-2 xl:f-s-1" href={`/#${link.href}`}>
               {link.text}
             </NavItem>
           </li>
@@ -61,15 +61,8 @@ import { constants } from "~/ui";
 
 <script>
   function init() {
-    const container = document.querySelector("main");
-
     const mobileMenuToggle = document.getElementById("menu-toggle");
     const linksContainer = document.getElementById("links-container");
-    const links = document.querySelectorAll(".navbar-link");
-
-    const scrollSections = ([...(document.querySelectorAll(".scroll-section") || [])] as HTMLElement[]).sort(
-      (a, b) => b.offsetTop - a.offsetTop,
-    );
 
     mobileMenuToggle?.addEventListener("click", () => {
       let sidebarOpen = document.getElementById("links-container")?.classList.toString().includes("open");
@@ -91,64 +84,6 @@ import { constants } from "~/ui";
           },
           { capture: true, signal: abortController.signal },
         );
-      }
-    });
-
-    const targetLocation = window.location.hash.replace("#", "");
-    scrollToSection(targetLocation);
-
-    function scrollToSection(id?: string | undefined) {
-      if (!id) return;
-
-      let targetSection = scrollSections.find((section) => section.id === id);
-      if (targetSection && container) {
-        container.scrollTo({
-          top: targetSection.offsetTop,
-          behavior: "smooth",
-          // behavior: "instant",
-        });
-      }
-    }
-
-    function checkScroll() {
-      if (!container) return;
-
-      const currentSection = scrollSections.find((section) => {
-        let sectionTop = section.offsetTop;
-        let scrollHeight = container.scrollTop;
-
-        return scrollHeight > sectionTop - 20;
-      });
-
-      if (currentSection) {
-        let currentHighlight = [...links].find((el) => el.classList.contains("active"));
-
-        if (!currentHighlight || currentHighlight.id !== currentSection.id) {
-          links.forEach((el) => {
-            el.classList.remove("active");
-          });
-
-          let sidebarLink = document.getElementById(currentSection.id);
-          sidebarLink?.classList.add("active");
-          window.history.pushState({ urlPath: window.location.pathname }, "", "#" + currentSection.id);
-        }
-      }
-    }
-
-    if (container && scrollSections.length) {
-      container.addEventListener("scroll", checkScroll);
-    }
-
-    window.addEventListener("load", checkScroll);
-
-    links.forEach((el) => {
-      el.addEventListener("click", () => scrollToSection(el.id));
-    });
-
-    document.addEventListener("astro:before-swap", () => {
-      window.removeEventListener("load", checkScroll);
-      if (container && scrollSections.length) {
-        container.removeEventListener("scroll", checkScroll);
       }
     });
   }

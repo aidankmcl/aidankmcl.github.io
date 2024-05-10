@@ -37,7 +37,7 @@ const { title } = Astro.props;
         </div>
       </div>
     </div>
-
+    <!-- CSS Specific to Overall Layout -->
     <style
       define:vars={{
         purple: constants.colors["purple"],
@@ -46,10 +46,6 @@ const { title } = Astro.props;
       }}
       is:global
     >
-      * {
-        box-sizing: border-box;
-      }
-
       .app-container {
         height: 100vh;
         border-radius: 1rem;
@@ -96,7 +92,12 @@ const { title } = Astro.props;
       }
     </style>
 
+    <!-- Global CSS -->
     <style is:global>
+      * {
+        box-sizing: border-box;
+      }
+
       @screen lt-lg {
         html,
         body {
@@ -173,6 +174,27 @@ const { title } = Astro.props;
         background: url("../assets/images/graphics/pattern.png") repeat 0 0;
         animation: bg-scrolling-reverse 8s infinite;
         animation-timing-function: linear;
+      }
+    </style>
+
+    <!-- Script and styling for addressing mobile browsers with top / bottom bars -->
+    <script>
+      const appHeight = () => {
+        const doc = document.documentElement;
+        doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+      };
+      window.addEventListener("resize", appHeight);
+      appHeight();
+    </script>
+    <style>
+      :root {
+        --app-height: 100%;
+      }
+
+      html,
+      body {
+        height: 100vh;
+        height: var(--app-height);
       }
     </style>
   </body>

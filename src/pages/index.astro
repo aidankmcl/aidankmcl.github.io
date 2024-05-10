@@ -10,6 +10,7 @@ import Experiences from "../components/Experiences.astro";
 import House from "../assets/images/graphics/House.png";
 import Project from "components/projects/Project.astro";
 import ProjectList from "components/projects/ProjectList.astro";
+import NavItem from "components/NavItem.astro";
 
 // Get all entries from a collection.
 // Requires the name of the collection as an argument.
@@ -35,7 +36,7 @@ const projects = await getCollection("projects");
       </p>
 
       <h3>Featured Projects</h3>
-      <ul class="md:columns-2 xl:grid xl:grid-flow-col" style="grid-auto-columns: 1fr">
+      <ul class="mb-8 md:columns-2 xl:grid xl:grid-flow-col" style="grid-auto-columns: 1fr">
         {
           projects
             .filter((p) => p.data.featured)
@@ -46,6 +47,7 @@ const projects = await getCollection("projects");
             ))
         }
       </ul>
+      <NavItem class="f-s-2" href="/#projects">See More</NavItem>
     </SectionBody>
   </section>
 
