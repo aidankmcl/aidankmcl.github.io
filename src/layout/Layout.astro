@@ -59,7 +59,6 @@ const { title } = Astro.props;
 
       .sidebar {
         grid-area: sidebar;
-        /* border-radius: 0.8rem 0 0 0.8rem; */
         border-radius: var(--borderRadius) 0 0 var(--borderRadius);
         overflow: hidden;
       }
@@ -68,6 +67,8 @@ const { title } = Astro.props;
         grid-area: content;
         background: white;
         border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
+        overflow: hidden;
+        -webkit-mask-image: -webkit-radial-gradient(white, black);
       }
 
       .content main {
