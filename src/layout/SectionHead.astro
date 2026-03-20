@@ -5,45 +5,43 @@ import { Icon } from "astro-icon/components";
 import Image from "../components/Image.astro";
 
 export interface Props {
+  titleTag?: 'h1' | 'h2';
   img?: ImageMetadata;
   id?: string;
   class?: string;
   cover?: boolean;
 }
 
-const { id, img, class: className, cover } = Astro.props;
+const { titleTag: Tag = 'h1', id, img, class: className, cover } = Astro.props;
 ---
 
 <div id={id} class={`bg-light-purple p-10 z-1 relative ${className || ""} ${cover ? "cover" : "standard"}`}>
-  {
-    cover && (
-      <button class="back-button absolute top-6 left-6 z-3 transition-all text-white bg-purple hover:bg-darkPurple p-2 f-s-0 lg:p-3 lg:f-s-1">
-        <Icon name="mdi:chevron-left" />
-      </button>
-    )
-  }
+  {cover && (
+    <button class="back-button absolute top-6 left-6 z-3 transition-all text-white bg-purple hover:bg-darkPurple p-2 f-s-0 lg:p-3 lg:f-s-1">
+      <Icon name="mdi:chevron-left" />
+    </button>
+  )}
+
   <div class="header-container flex flex-col justify-evenly items-center md:flex-row md:justify-evenly">
-    {
-      img && (
-        <div class={`cover-image ${cover ? "" : "m-b-10"} md:m-b-0`}>
-          <Image
-            alt="Section header image"
-            src={img}
-            class="object-cover"
-            width="100%"
-            height="100%"
-            style={{ width: "100%", height: "100%" }}
-          />
-        </div>
-      )
-    }
+    {img && (
+      <div class={`cover-image ${cover ? "" : "m-b-10"} md:m-b-0`}>
+        <Image
+          alt="Section header image"
+          src={img}
+          class="object-cover w-full h-full"
+          width="100%"
+          height="100%"
+          style={{ objectPosition: 'center' }}
+        />
+      </div>
+    )}
 
     <div class="relative z-1">
-      <h2 class={`title header-text ${cover ? "bg-purple text-center p-x-4" : ""}`}>
+      <Tag class={`title header-text ${cover ? "bg-purple text-center p-x-4" : ""}`}>
         <mark class={`bg-purple p-x-0 ${cover ? "" : "p-x-4"} md:p-x-4 p-y-1 text-white`}>
           <slot />
         </mark>
-      </h2>
+      </Tag>
     </div>
   </div>
 </div>

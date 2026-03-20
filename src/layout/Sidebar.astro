@@ -6,43 +6,29 @@ import NavItem from "../components/NavItem.astro";
 import { constants } from "~/ui";
 ---
 
-<div class="flex flex-col m-0 b-purple bg-white p-y-6 p-x-8 b-b-2 lg:p-15 lg:b-0 lg:b-r-2 lg:h-full">
-  <a href="/"><h1 class="hidden lg:f-s-1 lg:block xl:f-s-0">Aidan McLaughlin</h1></a>
+<aside class="flex flex-col m-0 b-purple bg-white p-y-6 p-x-8 b-b-2 lg:p-10 lg:b-0 lg:b-r-2 lg:h-full">
+  <a href="/"><span class="header-text hidden lg:f-s-1 lg:block">Aidan McLaughlin</span></a>
   <div class="lg:hidden flex justify-between items-center">
-    <a href="/"><h1 class="inline-block">AM</h1></a>
+    <a href="/"><span class="header-text f-s-1 inline-block">Aidan McLaughlin</span></a>
     <Icon id="menu-toggle" name="mdi:menu" class="f-s-0 text-purple" />
   </div>
 
   <hr class="b-purple b-1 mt-6 hidden lg:block" />
 
-  <div id="links-container" class="flex flex-col grow lg:justify-between h-full">
+  <nav id="links-container" class="flex flex-col grow lg:justify-between h-full">
     <ul class="mt-3">
       {
         constants.links.nav.map((link) => (
           <li class="m-b-6 lg:m-b-0">
-            <NavItem id={link.href} class="navbar-link f-s-0 lg:f-s-2 xl:f-s-1" href={`/#${link.href}`}>
+            <NavItem id={link.href} class="navbar-link f-s-0 lg:f-s-2" href={`/#${link.href}`}>
               {link.text}
             </NavItem>
           </li>
         ))
       }
     </ul>
-    <!-- 
-    <hr class="m-y-5 lg:hidden" />
-
-    <ul class="lg:mb-3">
-      {
-        constants.links.work.map((link) => (
-          <li>
-            <NavItem id={link.href} class="navbar-link lg:f-s-2 xl:f-s-1" href={`/${link.href}`}>
-              {link.text}
-            </NavItem>
-          </li>
-        ))
-      }
-    </ul> -->
-  </div>
-</div>
+  </nav>
+</aside>
 
 <style is:global>
   @screen lt-lg {

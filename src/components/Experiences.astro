@@ -41,42 +41,44 @@ await Promise.all(
   <ul>
     {
       Object.entries(experiencesByCompany).map(([company, jobs], i) => {
-        const jobsDescending = jobs.sort((a, b) => a.data.start.getTime() - b.data.start.getTime());
+        const jobsDescending = jobs.sort((a, b) => b.data.start.getTime() - a.data.start.getTime());
         let isLastItem = i === Object.keys(experiencesByCompany).length - 1;
 
         return (
-          <li class={"experience p-5 b-purple " + (isLastItem ? "" : "p-b-3 b-b-2") + (i === 0 ? " open" : "")}>
-            <div class="flex flex-col lg:flex-row justify-between m-b-3 lg:m-y-3">
-              <h3 class="subhead-text inline-block f-s-1 lg:f-s-3 xl:f-s-2 m-y-5 lg:m-t-0 lg:m-b-2 lg:m-r-5">
-                {jobsDescending[0].data.title} <br class="lg:hidden" />{" "}
-                <span class="text-purple block m-t-2 lg:m-t-0 lg:inline-block">@ {company}</span>
-              </h3>
+          <li class={"experience p-5 pt-4 b-purple " + (isLastItem ? "" : "pb-3 b-b-2") + (i === 0 ? " open" : "")}>
+            <article>
+              <div class="flex flex-col lg:flex-row justify-between m-b-3 lg:m-y-3">
+                <h3 class="subhead-text inline-block f-s-1 lg:f-s-3 xl:f-s-2 m-y-5 lg:m-t-0 lg:m-b-0 lg:m-r-5">
+                  <span class="inline-block">{jobsDescending[0].data.title}</span><br />
+                  <span class="inline-block text-purple block mt-2">@ {company}</span>
+                </h3>
 
-              <h3 class="subhead-text inline-block f-s-2 lg:f-s-3 xl:f-s-2 ws-nowrap">
-                {displayDateRange(jobsDescending[0].data.start, jobsDescending[jobsDescending.length - 1].data.end)}
-                <Icon class="open-status inline vertical-top hidden lg:inline-block" name="mdi:chevron-down" />
-              </h3>
-            </div>
+                <h3 class="subhead-text inline-block f-s-2 lg:f-s-3 xl:f-s-2 ws-nowrap">
+                  {displayDateRange(jobsDescending[jobsDescending.length - 1].data.start, jobsDescending[0].data.end)}
+                  <Icon class="open-status inline vertical-top hidden lg:inline-block" name="mdi:chevron-down" />
+                </h3>
+              </div>
 
-            <div class="collapsible m-b-6">
-              {jobsDescending.map(async (job) => {
-                const { Content } = await job.render();
+              <div class="collapsible">
+                {jobsDescending.map(async (job) => {
+                  const { Content } = await job.render();
 
-                return (
-                  <>
-                    {jobsDescending.length > 1 && (
-                      <h4 class="m-t-5 m-b-4 f-s-3">
-                        {capitalize(job.data.type)}
-                        <span class="fw-300 inline-block m-l-4">{displayDateRange(job.data.start, job.data.end)}</span>
-                      </h4>
-                    )}
-                    <Content />
-                  </>
-                );
-              })}
-            </div>
+                  return (
+                    <div class="mt-5 mb-6">
+                      {jobsDescending.length > 1 && (
+                        <h4 class="m-t-5 m-b-4 f-s-3">
+                          {capitalize(job.data.type)}
+                          <span class="fw-300 inline-block m-l-4">{displayDateRange(job.data.start, job.data.end)}</span>
+                        </h4>
+                      )}
+                      <Content />
+                    </div>
+                  );
+                })}
+              </div>
 
-            <SkillList class="m-t-6" skills={skillsByCompany[company]} short bare />
+              <SkillList class="mb-3 pt-3 pb-0 px-3 bg-lightPurple rounded-lg" skills={skillsByCompany[company]} short bare />
+            </article>
           </li>
         );
       })
@@ -86,9 +88,21 @@ await Promise.all(
 
 <style is:global>
   @screen lg {
+    .experience {
+      border-left: 2px solid rgba(255,255,255,0);
+      border-right: 2px solid rgba(255,255,255,0);
+    }
+    .experience:first-child {
+      border-top: 2px solid rgba(255,255,255,0);
+    }
+    .experience:last-child {
+      border-bottom: 2px solid rgba(255,255,255,0);
+    }
+
     .experience:not(.open):hover {
       cursor: pointer;
-      background: var(--lightPurple);
+      --uno: bg-lighterPurple;
+      border-color: var(--purple);
     }
 
     .experience .collapsible {
@@ -99,7 +113,6 @@ await Promise.all(
       transition: all 0ms linear;
       height: 0;
       margin: 0;
-      --uno: -m-t-3;
       opacity: 0;
       pointer-events: none;
     }

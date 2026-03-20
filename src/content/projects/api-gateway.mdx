@@ -20,7 +20,7 @@ At Streamroot I worked as the tech lead of the company's analytics dashboard tea
 
 Our dashboard was the primary interaction point for customers to understand the value of the underlying products as well as diagnose potential issues, so it was critical that we validate the accuracy of all data visualizations as well as confirm that all configuration tools worked in case a client needed to alter parameters of their integrations.
 
-### Creating a Public Gateway
+## Creating a Public Gateway
 
 During my time at Streamroot, their backend was comprised of several microservices (mostly written in Golang) orchestrated by Kubernetes. For the most part, I worked primarily on an inherited service focused on supporting the frontend: various entities needing CRUD operations, calls to external services, etc. Since most of the functionality we added on the frontend required very minor changes to this medium-sized service, I did not feel an urgent need to rework it and opted instead to address technical debt gradually with the team. That said, as the wider company backend evolved over time, the positioning of this service grew unwieldy since other services relied on rigid parts of it and the brittleness of the system was highlighted. This ultimately was a small piece of a larger, multi-team puzzle around the organization of concerns in the backend services.
 

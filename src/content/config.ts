@@ -18,7 +18,7 @@ const skills = defineCollection({
     title: z.string(),
     years: z.number(),
     type: z.enum(["primary", "secondary", "hobby"]),
-    category: z.enum(["Languages", "Frameworks", "Databases", "Dev Tooling + Infra", "Design", "3D"]),
+    category: z.enum(["Languages", "Frameworks", "Databases", "Dev Tooling + Infra", "Design / Creative", "3D"]),
   }),
 });
 

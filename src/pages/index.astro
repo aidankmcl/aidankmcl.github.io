@@ -23,17 +23,21 @@ const projects = await getCollection("projects");
 <Layout title="Aidan Works">
   <section id="intro" class="scroll-section">
     <SectionHead class="sticky top-0 z-1" img={House}>
-      Hi!&nbsp;<br />&nbsp;I'm Aidan!
+      Aidan's&nbsp;<br />
+      &nbsp;Full Stack&nbsp;<br />
+      &nbsp;Portfolio
     </SectionHead>
     <SectionBody class="b-y-2 b-purple relative z-2">
       <p class="body-text">
-        I’m a software engineer who enjoys working on interactive experiences. I’ve been creating web apps since 2014
-        and I’m most motivated by causes focused on positive social impact.
+        Hi! I'm Aidan, welcome to my digital home! If you're wondering about the domain: my name comes from the Gaelic "Aodhán" which can be translated to "little fire."
       </p>
 
       <p class="body-text">
-        Outside of work, I’m excited about running, VR/AR, woodworking, traveling, design, video games, and coffee.
-        Otherwise we're usually watching TV or movies with our two <a href="/dogs">sweet dogs!</a>
+        I’m a software engineer who enjoys working on interactive experiences. I’ve been creating web apps since 2014 and I’m most motivated by social impact causes and interesting technology. The last few years I've been focused on educational tech.
+      </p>
+
+      <p class="body-text">
+        Outside of work, I’m excited about running, VR/AR, woodworking, traveling, art, video games, coffee, and generally learning something new. Otherwise we're usually watching TV or movies with our two <a href="/dogs">sweet dogs!</a>
       </p>
 
       <h3>Featured Projects</h3>
@@ -41,6 +45,7 @@ const projects = await getCollection("projects");
         {
           projects
             .filter((p) => p.data.featured)
+            .reverse()
             .map((p) => (
               <li class="m-b-10 lg:m-b-6 break-inside-avoid inline-block">
                 <Project project={p} class="flex flex-col h-full" />
@@ -48,26 +53,26 @@ const projects = await getCollection("projects");
             ))
         }
       </ul>
-      <NavItem class="f-s-2" href="/#projects">See More Projects</NavItem>
+      <NavItem class="f-s-2 text-purple" href="/#projects">See More Projects</NavItem>
     </SectionBody>
   </section>
 
   <section id="experience" class="scroll-section">
-    <SectionHead class="sticky top-0 z-1"><span class="inline-block m-y-20">Experiences</span></SectionHead>
+    <SectionHead titleTag="h2" class="sticky top-0 z-1"><span class="inline-block m-y-20">Experiences</span></SectionHead>
     <SectionBody class="b-y-2 b-purple relative z-2">
       <Experiences experiences={experiences} />
     </SectionBody>
   </section>
 
   <section id="projects" class="scroll-section">
-    <SectionHead class="sticky top-0 z-1"><span class="inline-block m-y-20">Projects</span></SectionHead>
+    <SectionHead titleTag="h2" class="sticky top-0 z-1"><span class="inline-block m-y-20">Projects</span></SectionHead>
     <SectionBody class="b-y-2 b-purple relative z-2">
       <ProjectList projects={projects} />
     </SectionBody>
   </section>
 
   <section id="skills" class="scroll-section">
-    <SectionHead class="sticky top-0 z-1"><span class="inline-block m-y-20">Skills</span></SectionHead>
+    <SectionHead titleTag="h2" class="sticky top-0 z-1"><span class="inline-block m-y-20">Skills</span></SectionHead>
     <SectionBody class="b-t-2 b-purple relative z-2">
       <SkillsBreakdown skills={skills} />
     </SectionBody>

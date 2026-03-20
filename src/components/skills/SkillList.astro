@@ -27,16 +27,16 @@ export const sortSkills = (skills: Skill[]) => {
 const { skills, skillClasses, short, bare, class: className } = Astro.props;
 ---
 
-<ul class={className}>
+{skills.length ? <ul class={className}>
   {
     sortSkills(skills).map((skill) => (
       <li class={`m-b-3 ${short ? "inline-block" : ""} ${skillClasses || ""}`}>
         {bare ? (
-          <strong class="fw-600 f-s-4 m-6 m-t-0 m-l-0 text-darkPurple">{skill.data.title}</strong>
+          <strong class="fw-600 f-s-4 m-6 m-t-0 m-l-0 text-lightGray">{skill.data.title}</strong>
         ) : (
           <Skill skill={skill} short={short} />
         )}
       </li>
     ))
   }
-</ul>
+</ul> : <></>}

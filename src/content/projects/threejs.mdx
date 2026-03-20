@@ -1,0 +1,76 @@
+---
+title: Three.js Certificate
+thumbnail: ../../assets/images/projects/threejs/overview.avif
+blurb: Learned all about Threejs working through Bruno Simon's Three.js Journey course.
+skills:
+- ts
+- html
+- css
+- threejs
+start: 2025-11-03
+end: 2026-02-26
+featured: true
+---
+import Image from "../../components/Image.astro";
+import Video from "../../components/Video.astro";
+
+import certificate from "../../assets/images/projects/threejs/certificate.avif";
+import lessons from "../../assets/images/projects/threejs/lessons.avif";
+import tinyViolin from "../../assets/images/projects/threejs/tiny-violin.avif";
+import jellypartyURL from "../../assets/images/projects/threejs/jellyparty_small_vbr.mp4";
+import room from "../../assets/images/projects/threejs/room.avif";
+import roomBaked from "../../assets/images/projects/threejs/room-baked.avif";
+
+After 93 hours worth of video across 66 lessons, I finally wrapped up Bruno Simon's excellent <a href="https://threejs-journey.com/" target="_blank" rel="noopener noreferrer">Three.js Journey Course</a>. I loved working through it and am excited to play with Three.js in more projects!
+
+<div class="w-full bg-purple">
+<Image src={certificate} class="w-full lg:w-75 mx-auto mb-6" alt="Aidan's certificate from Bruno Simon's Three.js Journey course" />
+</div>
+
+The course begins with the basics and gradually introduces more advanced techniques until eventually putting everything together by loading a custom scene created in Blender and optimized for web.
+
+At the end, there's a significant section that shows how to apply all of the same techniques with React Three Fiber, while showing how R3F makes certain things, like pointer events, a lot simpler for interactive sites.
+
+<a href="https://aidankmcl.github.io/3journey/" target="_blank" rel="noopener noreferrer">
+  <Image src={lessons} class="w-full mb-6" alt="A sampling of lesson thumbnails from the Three.js Journey course" />
+</a>
+
+I figure it's better to show than tell, so <a href="https://aidankmcl.github.io/3journey/" target="_blank" rel="noopener noreferrer">click here</a> if you want to see my results from most of the lessons. Below I'll cover a few specific projects:
+
+## Tiniest Violin
+
+<a href="https://aidankmcl.github.io/3journey/lessons/Tiniest-Violin/" class="block w-full bg-purple" target="_blank" rel="noopener noreferrer">
+  <Image src={tinyViolin} class="w-full lg:w-75 mx-auto mb-6" alt="A webcam still of Aidan playing a tiny, digital violin" />
+</a>
+
+<p><a href="https://aidankmcl.github.io/3journey/lessons/Tiniest-Violin/" target="_blank" rel="noopener noreferrer">Try here!</a></p>
+
+I wanted to make an interactive toy using some kind of body tracking to place Three.js objects. To get started I placed a little sphere on the tip of my index finger, and playing that little demo quickly reminded me of the "world's tiniest violin" joke. I found free models for the <a href="https://sketchfab.com/3d-models/low-poly-violin-5ce6ae20a9ec4eb78f2c8c4c1e1e0f08" target="_blank" rel="noopener noreferrer">violin</a> and <a href="https://sketchfab.com/3d-models/violin-bow-af332828a42f4f8cbbe81bea3de0b00d" target="_blank" rel="noopener noreferrer">bow</a> and grabbed the audio from <a href="https://www.youtube.com/watch?v=7oduG9597Bw" target="_blank" rel="noopener noreferrer">SpongeBob</a>.
+
+## Jellyfish Party
+
+<Video src={jellypartyURL} class="w-full mb-6" alt="Animated jellyfish in a flocking simulation lighting up in time with music" />
+
+<p><a href="https://aidankmcl.github.io/3journey/lessons/Jellyfish-Party/" target="_blank" rel="noopener noreferrer">Try here!</a></p>
+
+Another demo referencing SpongeBob, I started out wanting to implement something that would only really run smoothly if offloaded to GPU, using <a href="https://github.com/mrdoob/three.js/wiki/Three.js-Shading-Language#introduction" target="_blank" rel="noopener noreferrer">Three.js Shading Language (TSL)</a>. TSL is relatively new, and something exciting about it is that it can output WGSL and make use of WebGPU features like Storage Buffers directly as opposed to Three.js' existing GPUComputationRenderer, which emulates similar data storage by ping-ponging between texture buffers and reading from those. I worked with that approach in Bruno's course, but it didn't come very naturally to me, where TSL ultimately avoids that overhead using an abstraction that felt more intuitive.
+
+The "something" I decided to implement was a <a href="https://en.wikipedia.org/wiki/Boids" target="_blank" rel="noopener noreferrer">Boid flocking algorithm</a> - where I needed to calculate the movement of 10K entities based on their surrounding entities. I used a basic approach where every boid is checked against every other boid for O(N**2) complexity, which could be cut down by doing some tracking of which slice of space a given boid is in, but the naive approach demonstrated my goal well enough: if doing the same in JS (CPU) with 10K boids the simulation would be slow.
+
+I'll have to keep exploring TSL, but as of now I hope to make it my default for shading work!
+
+## Portal
+
+<a href="https://aidankmcl.github.io/3journey/lessons/6-51-R3F-Custom-Blender-Scene/" target="_blank" rel="noopener noreferrer">
+  <Image src={room} class="w-full mb-6" alt="A low-poly computer room with floating streams of characters inspired by the Matrix" />
+</a>
+
+<p><a href="https://aidankmcl.github.io/3journey/lessons/6-51-R3F-Custom-Blender-Scene/" target="_blank" rel="noopener noreferrer">View here!</a></p>
+
+A section of the Three.js Journey course is dedicated to creating a basic scene in Blender and preparing it for performant rendering on web with Three.js. There's an official scene that Bruno walks students through modeling of a portal on a pathway, and something about it made me want to do my own portal scene where somebody just got sucked into their computer.
+
+The "billboarding" text streams use a texture I created that's just vertical white text on a black background, and I wrote a shader to run a fading green gradient from top to bottom that only shows on the white text.
+
+I had learned a little about UV unwrapping in Blender from working with premade or node-based textures in the past, but actually lining them up on a texture to be baked made things sink in more deeply conceptually. The unwrapping process was quite zen, and while I didn't end up free of stretching, I'm happy with where I landed:
+
+<Image src={roomBaked} class="w-full lg:w-75 xl:w-50 mx-auto mb-6" alt="The baked texture with coloring of the above low-poly computer room scene" />

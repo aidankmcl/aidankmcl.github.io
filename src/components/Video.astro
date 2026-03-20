@@ -1,27 +1,79 @@
 ---
 import type { JSX } from "astro/jsx-runtime";
-import { type LocalImageProps } from "astro:assets";
 
 import Loader from "./loaders/Squiggles.astro";
 
 type Props = {
   src: string;
   alt: string;
-  type?: "google-drive";
-  width?: string;
-  height?: string;
-  quality?: LocalImageProps["quality"];
+  type?: "embed" | "google-drive" | "video";
+  autoplay?: boolean;
+  controls?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  playsinline?: boolean;
+  preload?: "none" | "metadata" | "auto";
   style?: JSX.CSSProperties;
   class?: string;
 };
 
-const { src, alt } = Astro.props;
+const {
+  src,
+  alt,
+  type,
+  autoplay = false,
+  controls = true,
+  loop = false,
+  muted,
+  playsinline = true,
+  preload = "metadata",
+  style,
+  class: className,
+} = Astro.props;
+
+const isRemoteSrc = /^https?:\/\//.test(src);
+const isEmbed = type === "embed" || type === "google-drive" || (type == null && isRemoteSrc);
+const resolvedMuted = muted ?? autoplay;
 ---
 
-<div class="video-container relative w-full h-0 m-b-6 bg-purple" style="padding-bottom: 56.25%;">
-  <Loader class="video-load-animation absolute top-0 left-0 w-full h-full">Video Loading:<br />{alt}</Loader>
-  <iframe id="video-frame" class="absolute top-0 left-0 w-full h-full b-0" src={src} allowfullscreen></iframe>
-</div>
+{
+  isEmbed ? (
+    <div
+      class={"video-container relative w-full h-0 m-b-6 bg-purple " + (className || "")}
+      style={{ ...style, paddingBottom: "56.25%" }}
+    >
+      <Loader class="video-load-animation absolute top-0 left-0 w-full h-full">
+        Video Loading:<br />
+        {alt}
+      </Loader>
+      <iframe
+        class="video-frame absolute top-0 left-0 w-full h-full b-0"
+        src={src}
+        title={alt}
+        allowfullscreen
+      ></iframe>
+    </div>
+  ) : (
+    <div class={"video-container relative w-full m-b-6 bg-purple " + (className || "")} style={style}>
+      <Loader class="video-load-animation absolute top-0 left-0 w-full h-full flex items-center justify-center">
+        Video Loading:<br />
+        {alt}
+      </Loader>
+      <video
+        class="video-element block w-full max-w-full"
+        src={src}
+        title={alt}
+        aria-label={alt}
+        autoplay={autoplay}
+        controls={controls}
+        loop={loop}
+        muted={resolvedMuted}
+        playsinline={playsinline}
+        preload={preload}
+      ></video>
+    </div>
+  )
+}
 
 <script>
   const videoContainers = document.querySelectorAll(".video-container");
@@ -29,11 +81,23 @@ const { src, alt } = Astro.props;
   videoContainers.forEach((videoContainer) => {
     const loader = videoContainer.querySelector(".video-load-animation") as HTMLDivElement;
     const iframe = videoContainer.querySelector("iframe") as HTMLIFrameElement;
+    const video = videoContainer.querySelector("video") as HTMLVideoElement;
+
+    const removeLoader = () => {
+      loader?.remove();
+    };
 
     if (iframe && loader) {
-      iframe.onload = () => {
-        loader.remove();
-      };
+      iframe.onload = removeLoader;
+    }
+
+    if (video && loader) {
+      if (video.readyState >= 1) {
+        removeLoader();
+      } else {
+        video.addEventListener("loadedmetadata", removeLoader, { once: true });
+        video.addEventListener("error", removeLoader, { once: true });
+      }
     }
   });
 </script>
